@@ -1,0 +1,81 @@
+{
+	"name": "bco-translate",
+	"displayName": "bco-translate",
+	"description": "bco-translate，一款快速生成英文变量名的插件。",
+	"version": "0.0.1",
+	"publisher": "Li Lei",
+	"engines": {
+		"vscode": "^1.67.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"repository": {
+    "type": "git",
+    "url": "https://github.com/leiss26/bco-translate"
+  },
+	"icon": "images/icon.png",
+	"activationEvents": [
+		"onCommand:bco.translate"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+      {
+        "command": "bco.translate",
+        "title": "bco-translate"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorHasSelection",
+          "command": "bco.translate",
+          "group": "navigation"
+        }
+      ]
+    },
+		"configuration": [
+      {
+        "title": "bco-translate",
+        "properties": {
+					"translate.url": {
+            "type": "string",
+            "default": "https://fanyi-api.baidu.com/api/trans/vip/translate",
+            "description": "url"
+          },
+          "translate.appid": {
+            "type": "string",
+            "default": "",
+            "description": "appid"
+          },
+          "translate.secret": {
+            "type": "string",
+            "default": "",
+            "description": "secret"
+          }
+        }
+      }
+    ]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "yarn run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.1",
+		"@types/node": "14.x",
+		"@types/vscode": "^1.67.0",
+		"@vscode/test-electron": "^2.1.3",
+		"eslint": "^8.14.0",
+		"glob": "^8.0.1",
+		"mocha": "^9.2.2",
+		"typescript": "^4.6.4"
+	},
+	"dependencies": {
+		"axios": "^0.27.2",
+		"md5": "^2.3.0"
+	}
+}
