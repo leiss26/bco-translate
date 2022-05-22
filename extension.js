@@ -71,10 +71,10 @@ function activate(context) {
       arr.push(list.map(v => v.replace(/\?|\!|\'|\.|\,/g, '').toLocaleUpperCase()).join('_'))
       selectWord = await vscode.window.showQuickPick(arr, { placeHolder: '请选择要替换的变量名' })
     } else if (list.length === 1) {
-      arr.push(list.map(v => v.charAt(0).toLocaleUpperCase() + v.slice(1)).replace(/\?|\!|\'|\.|\,/g, '').join(''))
+      arr.push(list[0].charAt(0).toLocaleUpperCase() + list[0].replace(/\?|\!|\'|\.|\,/g, '').slice(1))
       arr.push(list[0].replace(/\?|\!|\'|\.|\,/g, '').toLocaleLowerCase())
-      arr.push(list.map(v => v.replace(/\?|\!|\'|\.|\,/g, '').toLocaleUpperCase()).join(''))
-      selectWord = list[0]
+      arr.push(list[0].replace(/\?|\!|\'|\.|\,/g, '').toLocaleUpperCase())
+      selectWord = await vscode.window.showQuickPick(arr, { placeHolder: '请选择要替换的变量名' })
     }
 
     if (selectWord) {
