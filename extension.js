@@ -19,7 +19,7 @@ function handlingExceptions(code) {
     "58002": "服务当前已关闭, 请前往管理控制台开启服务",
     "90107": "认证未通过或未生效",
   }
-  vscode.window.showWarningMessage("translateNamed: " + codes[code] || "未知异常, 可评论反馈")
+  vscode.window.showWarningMessage("系统提示: " + codes[code] || "未知异常, 可评论反馈")
 }
 
 /**
