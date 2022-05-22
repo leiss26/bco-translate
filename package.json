@@ -2,7 +2,7 @@
 	"name": "bco-translate",
 	"displayName": "bco-translate",
 	"description": "bco-translate，一款快速生成英文变量名的插件。",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "LiLei",
 	"engines": {
 		"vscode": "^1.67.0"

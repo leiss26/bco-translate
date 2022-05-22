@@ -8,12 +8,12 @@ function handlingExceptions(code) {
   const codes = {
     "52001": "请求超时,检查网络后重试" ,
     "52002": "系统错误, 查看百度翻译官网公告",
-    "52003": "请检查appid或者服务是否开通",
+    "52003": "请确认appid或者服务是否开通",
     "54000": "必填参数为空",
     "54001": " 签名错误",
-    "54003": "访问频率受限",
-    "54004": "账户余额不足 ",
-    "54005": "长query请求频繁, 请降低长query的发送频率，3s后再试 ",
+    "54003": "访问频率受限，访问频率为每秒钟一次请求",
+    "54004": "账户余额不足",
+    "54005": "请求频繁, 请降低翻译频率，3s后再试",
     "58000": "客户端IP非法",
     "58001": "语言不支持",
     "58002": "服务当前已关闭, 请前往管理控制台开启服务",
@@ -50,25 +50,30 @@ function activate(context) {
     const result = data.data.trans_result[0].dst
     // 基于空格分割
     const list = result.split(' ')
+    const arr = []
     if (list.length > 1) {
-      const arr = []
+      // 正常
+      arr.push(result)
       // 小驼峰
       arr.push(list.map((v, i) => {
         if (i !== 0) {
-          return v.charAt(0).toLocaleUpperCase() + v.slice(1)
+          return v.charAt(0).toLocaleUpperCase() + v.replace(/\?|\!|\'|\.|\,/g, '').slice(1)
         }
-        return v.toLocaleLowerCase()
+        return v.replace(/\?|\!|\'|\.|\,/g, '').toLocaleLowerCase()
       }).join(''))
       // - 号连接
-      arr.push(list.map(v => v.toLocaleLowerCase()).join('-'))
+      arr.push(list.map(v => v.replace(/\?|\!|\'|\.|\,/g, '').toLocaleLowerCase()).join('-'))
       // 下划线连接
-      arr.push(list.map(v => v.toLocaleLowerCase()).join('_'))
+      arr.push(list.map(v => v.replace(/\?|\!|\'|\.|\,/g, '').toLocaleLowerCase()).join('_'))
       // 大驼峰
-      arr.push(list.map(v => v.charAt(0).toLocaleUpperCase() + v.slice(1)).join(''))
+      arr.push(list.map(v => v.charAt(0).toLocaleUpperCase() + v.replace(/\?|\!|\'|\.|\,/g, '').slice(1)).join(''))
 			// 大写下划线连接
-      arr.push(list.map(v => v.toLocaleUpperCase()).join('_'))
+      arr.push(list.map(v => v.replace(/\?|\!|\'|\.|\,/g, '').toLocaleUpperCase()).join('_'))
       selectWord = await vscode.window.showQuickPick(arr, { placeHolder: '请选择要替换的变量名' })
-    } else {
+    } else if (list.length === 1) {
+      arr.push(list.map(v => v.charAt(0).toLocaleUpperCase() + v.slice(1)).replace(/\?|\!|\'|\.|\,/g, '').join(''))
+      arr.push(list[0].replace(/\?|\!|\'|\.|\,/g, '').toLocaleLowerCase())
+      arr.push(list.map(v => v.replace(/\?|\!|\'|\.|\,/g, '').toLocaleUpperCase()).join(''))
       selectWord = list[0]
     }
 
